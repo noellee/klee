@@ -100,7 +100,8 @@ ExecutionState::~ExecutionState() {
   while (!stack.empty()) popFrame();
 }
 
-ExecutionState::ExecutionState(const ExecutionState& state):
+ExecutionState::ExecutionState(const ExecutionState& state, unsigned int id):
+    id(id),
     pc(state.pc),
     prevPC(state.prevPC),
     stack(state.stack),

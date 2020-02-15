@@ -73,6 +73,7 @@ private:
   ExecutionState &operator=(const ExecutionState &);
 
 public:
+  unsigned int id;
   // Execution - Control Flow specific
 
   /// @brief Pointer to instruction to be executed after the current

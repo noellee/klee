@@ -3775,7 +3775,7 @@ void Executor::runFunctionAsMain(Function *f,
     }
   }
 
-  ExecutionState *state = new ExecutionState(kmodule->functionMap[f]);
+  ExecutionState *state = new ExecutionState(kmodule->functionMap[f], 0);
   
   if (pathWriter) 
     state->pathOS = pathWriter->open();
