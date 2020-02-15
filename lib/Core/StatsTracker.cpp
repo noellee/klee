@@ -357,6 +357,7 @@ void StatsTracker::stepInstruction(ExecutionState &es) {
 	es.coveredNew = true;
         es.instsSinceCovNew = 1;
 	++stats::coveredInstructions;
+	++stats::loadInstructions;
 	stats::uncoveredInstructions += (uint64_t)-1;
       }
     }
@@ -454,7 +455,8 @@ void StatsTracker::writeStatsHeader() {
 #ifdef KLEE_ARRAY_DEBUG
 	           << "ArrayHashTime INTEGER,"
 #endif
-             << "QueryCexCacheHits INTEGER"
+             << "QueryCexCacheHits INTEGER,"
+             << "LoadInstructions INTEGER"
              << ")";
   char *zErrMsg = nullptr;
   if(sqlite3_exec(statsFile, create.str().c_str(), nullptr, nullptr, &zErrMsg)) {
@@ -490,7 +492,8 @@ void StatsTracker::writeStatsHeader() {
 #ifdef KLEE_ARRAY_DEBUG
              << "ArrayHashTime,"
 #endif
-             << "QueryCexCacheHits "
+             << "QueryCexCacheHits ,"
+             << "LoadInstructions "
              << ") VALUES ( "
              << "?, "
              << "?, "
@@ -514,6 +517,7 @@ void StatsTracker::writeStatsHeader() {
 #ifdef KLEE_ARRAY_DEBUG
              << "?, "
 #endif
+             << "?, "
              << "? "
              << ")";
 
@@ -547,8 +551,9 @@ void StatsTracker::writeStatsLine() {
   sqlite3_bind_int64(insertStmt, 18, stats::resolveTime);
   sqlite3_bind_int64(insertStmt, 19, stats::queryCexCacheMisses);
   sqlite3_bind_int64(insertStmt, 20, stats::queryCexCacheHits);
+  sqlite3_bind_int64(insertStmt, 21, stats::loadInstructions);
 #ifdef KLEE_ARRAY_DEBUG
-  sqlite3_bind_int64(insertStmt, 21, stats::arrayHashTime);
+  sqlite3_bind_int64(insertStmt, 22, stats::arrayHashTime);
 #endif
   int errCode = sqlite3_step(insertStmt);
   if(errCode != SQLITE_DONE) klee_error("Error writing stats data: %s", sqlite3_errmsg(statsFile));
@@ -608,6 +613,7 @@ void StatsTracker::writeIStats() {
   istatsMask.set(sm.getStatisticID("Forks"));
   istatsMask.set(sm.getStatisticID("CoveredInstructions"));
   istatsMask.set(sm.getStatisticID("UncoveredInstructions"));
+  istatsMask.set(sm.getStatisticID("LoadInstructions"));
   istatsMask.set(sm.getStatisticID("States"));
   istatsMask.set(sm.getStatisticID("MinDistToUncovered"));
 
