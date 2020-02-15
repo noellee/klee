@@ -357,7 +357,6 @@ void StatsTracker::stepInstruction(ExecutionState &es) {
 	es.coveredNew = true;
         es.instsSinceCovNew = 1;
 	++stats::coveredInstructions;
-	++stats::loadInstructions;
 	stats::uncoveredInstructions += (uint64_t)-1;
       }
     }

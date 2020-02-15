@@ -1178,6 +1178,20 @@ const Cell& Executor::eval(KInstruction *ki, unsigned index,
   }
 }
 
+bool Executor::isSymbolic(ExecutionState &state, ref<Expr> &address) const {
+  ObjectPair op;
+  bool success;
+  if (state.addressSpace.resolveOne(state, solver, address, op, success)) {
+    const MemoryObject *mo = op.first;
+    for (unsigned int i = 0; i<state.symbolics.size(); i++) {
+      if (mo == state.symbolics[i].first && state.symbolics[i].second->isSymbolicArray()) {
+          return true;
+      }
+    }
+  }
+  return false;
+}
+
 void Executor::bindLocal(KInstruction *target, ExecutionState &state, 
                          ref<Expr> value) {
   getDestCell(state, target).value = value;
@@ -2256,6 +2270,9 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
 
   case Instruction::Load: {
     ref<Expr> base = eval(ki, 0, state).value;
+    if (isSymbolic(state, base)) {
+      ++stats::loadInstructions;
+    }
     executeMemoryOperation(state, false, base, 0, ki);
     break;
   }

@@ -338,6 +338,8 @@ private:
   const Cell& eval(KInstruction *ki, unsigned index, 
                    ExecutionState &state) const;
 
+  bool isSymbolic(ExecutionState &state, ref<Expr> &address) const;
+
   Cell& getArgumentCell(ExecutionState &state,
                         KFunction *kf,
                         unsigned index) {
