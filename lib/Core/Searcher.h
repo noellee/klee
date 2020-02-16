@@ -88,7 +88,6 @@ namespace klee {
 
   class SymLoadSearcher : public Searcher {
     std::vector<ExecutionState*> states;
-  }
 
   public:
     ExecutionState &selectState();
