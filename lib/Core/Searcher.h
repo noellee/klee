@@ -85,6 +85,21 @@ namespace klee {
     };
   };
 
+  class SymLoadSearcher : public Searcher {
+    std::vector<ExecutionState*> states;
+  }
+
+  public:
+    ExecutionState &selectState();
+    void update(ExecutionState *current,
+                const std::vector<ExecutionState *> &addedStates,
+                const std::vector<ExecutionState *> &removedStates);
+    bool empty() { return states.empty(); }
+    void printName(llvm::raw_ostream &os) {
+      os << "SymLoadSearcher\n";
+    }
+  };
+
   class DFSSearcher : public Searcher {
     std::vector<ExecutionState*> states;
 

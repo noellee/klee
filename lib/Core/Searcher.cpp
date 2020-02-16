@@ -49,6 +49,16 @@ Searcher::~Searcher() {
 
 ///
 
+ExecutionState &SymLoadSearcher::selectState() {
+  return *states.back();
+}
+
+void SymLoadSearcher::update(ExecutionState *current,
+                             const std::vector<ExecutionState *> &addedStates,
+                             const std::vector<ExecutionState *> &removedStates) {
+  return;
+}
+
 ExecutionState &DFSSearcher::selectState() {
   return *states.back();
 }
