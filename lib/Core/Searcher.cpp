@@ -50,13 +50,48 @@ Searcher::~Searcher() {
 ///
 
 ExecutionState &SymLoadSearcher::selectState() {
+  // tuple <uint, ExecutionState> minSymLoad (states.begin().symLoad, states.begin());
+  // for (std::vector<ExecutionState*>::iterator it = states.begin(),
+  //      ie = states.end(); it != ie; ++it) {
+  //   ExecutionState *es = *it;
+  //   if (es.symLoad <= get<0>(minSymLoad)) {
+  //     get<0>(minSymLoad) = es.symLoad;
+  //     get<1>(minSymLoad) = es;
+  //   }
+  // }
+  // return get<1>(minSymLoad);
+
   return *states.back();
 }
 
 void SymLoadSearcher::update(ExecutionState *current,
                              const std::vector<ExecutionState *> &addedStates,
                              const std::vector<ExecutionState *> &removedStates) {
-  return;
+  states.insert(states.end(),
+                addedStates.begin(),
+                addedStates.end());
+  for (std::vector<ExecutionState *>::const_iterator it = removedStates.begin(),
+                                                     ie = removedStates.end();
+       it != ie; ++it) {
+    ExecutionState *es = *it;
+    if (es == states.back()) {
+      states.pop_back();
+    } else {
+      bool ok = false;
+
+      for (std::vector<ExecutionState*>::iterator it = states.begin(),
+             ie = states.end(); it != ie; ++it) {
+        if (es==*it) {
+          states.erase(it);
+          ok = true;
+          break;
+        }
+      }
+
+      (void) ok;
+      assert(ok && "invalid state removed");
+    }
+  }
 }
 
 ExecutionState &DFSSearcher::selectState() {
