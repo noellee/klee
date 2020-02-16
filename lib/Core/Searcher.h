@@ -71,6 +71,7 @@ namespace klee {
     }
 
     enum CoreSearchType {
+      SYMLOAD,
       DFS,
       BFS,
       RandomState,

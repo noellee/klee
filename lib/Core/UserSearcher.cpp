@@ -30,6 +30,7 @@ cl::list<Searcher::CoreSearchType> CoreSearch(
     cl::desc("Specify the search heuristic (default=random-path interleaved "
              "with nurs:covnew)"),
     cl::values(
+        clEnumValN(Searcher::SYMLOAD, "SymLoad", ""),
         clEnumValN(Searcher::DFS, "dfs", "use Depth First Search (DFS)"),
         clEnumValN(Searcher::BFS, "bfs",
                    "use Breadth First Search (BFS), where scheduling decisions "
@@ -108,6 +109,7 @@ bool klee::userSearcherRequiresMD2U() {
 Searcher *getNewSearcher(Searcher::CoreSearchType type, Executor &executor) {
   Searcher *searcher = NULL;
   switch (type) {
+  case Searcher::SYMLOAD: searcher = new SymLoadSearcher(); break;
   case Searcher::DFS: searcher = new DFSSearcher(); break;
   case Searcher::BFS: searcher = new BFSSearcher(); break;
   case Searcher::RandomState: searcher = new RandomSearcher(); break;
