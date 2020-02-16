@@ -50,20 +50,19 @@ Searcher::~Searcher() {
 ///
 
 ExecutionState &SymLoadSearcher::selectState() {
-  StackFrame &sf = states.begin()->stack.back();
-  uint64_t count = sf.callPathNode->statistics.getValue(stats::loadInstructions);
-  tuple <uint, ExecutionState> minSymLoad (count, states.begin());
+  uint64_t minSymLoad = std::numeric_limits<uint64_t>::max();
+  ExecutionState *minSymLoadState = nullptr;
 
   for (std::vector<ExecutionState*>::iterator it = states.begin(),
        ie = states.end(); it != ie; ++it) {
     ExecutionState *es = *it;
     uint stateSymLoad = es->stack.back().callPathNode->statistics.getValue(stats::loadInstructions);
-    if (stateSymLoad <= get<0>(minSymLoad)) {
-      get<0>(minSymLoad) = stateSymLoad;
-      get<1>(minSymLoad) = es;
+    if (stateSymLoad <= minSymLoad) {
+      minSymLoad = stateSymLoad;
+      minSymLoadState = es;
     }
   }
-  return get<1>(minSymLoad);
+  return *minSymLoadState;
 }
 
 void SymLoadSearcher::update(ExecutionState *current,

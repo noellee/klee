@@ -30,7 +30,7 @@ cl::list<Searcher::CoreSearchType> CoreSearch(
     cl::desc("Specify the search heuristic (default=random-path interleaved "
              "with nurs:covnew)"),
     cl::values(
-        clEnumValN(Searcher::SYMLOAD, "SymLoad", ""),
+        clEnumValN(Searcher::SYMLOAD, "sym-load", "select the path with the fewest symbolic loads."),
         clEnumValN(Searcher::DFS, "dfs", "use Depth First Search (DFS)"),
         clEnumValN(Searcher::BFS, "bfs",
                    "use Breadth First Search (BFS), where scheduling decisions "
