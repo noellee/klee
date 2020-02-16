@@ -26,7 +26,7 @@ namespace stats {
   extern Statistic falseBranches;
   extern Statistic forkTime;
   extern Statistic solverTime;
-  extern Statistic loadInstructions;
+  extern Statistic symLoads;
 
   /// The number of process forks.
   extern Statistic forks;

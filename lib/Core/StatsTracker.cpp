@@ -455,7 +455,7 @@ void StatsTracker::writeStatsHeader() {
 	           << "ArrayHashTime INTEGER,"
 #endif
              << "QueryCexCacheHits INTEGER,"
-             << "LoadInstructions INTEGER"
+             << "SymLoads INTEGER"
              << ")";
   char *zErrMsg = nullptr;
   if(sqlite3_exec(statsFile, create.str().c_str(), nullptr, nullptr, &zErrMsg)) {
@@ -492,7 +492,7 @@ void StatsTracker::writeStatsHeader() {
              << "ArrayHashTime,"
 #endif
              << "QueryCexCacheHits ,"
-             << "LoadInstructions "
+             << "SymLoads "
              << ") VALUES ( "
              << "?, "
              << "?, "
@@ -550,7 +550,7 @@ void StatsTracker::writeStatsLine() {
   sqlite3_bind_int64(insertStmt, 18, stats::resolveTime);
   sqlite3_bind_int64(insertStmt, 19, stats::queryCexCacheMisses);
   sqlite3_bind_int64(insertStmt, 20, stats::queryCexCacheHits);
-  sqlite3_bind_int64(insertStmt, 21, stats::loadInstructions);
+  sqlite3_bind_int64(insertStmt, 21, stats::symLoads);
 #ifdef KLEE_ARRAY_DEBUG
   sqlite3_bind_int64(insertStmt, 22, stats::arrayHashTime);
 #endif
@@ -612,7 +612,7 @@ void StatsTracker::writeIStats() {
   istatsMask.set(sm.getStatisticID("Forks"));
   istatsMask.set(sm.getStatisticID("CoveredInstructions"));
   istatsMask.set(sm.getStatisticID("UncoveredInstructions"));
-  istatsMask.set(sm.getStatisticID("LoadInstructions"));
+  istatsMask.set(sm.getStatisticID("SymLoads"));
   istatsMask.set(sm.getStatisticID("States"));
   istatsMask.set(sm.getStatisticID("MinDistToUncovered"));
 

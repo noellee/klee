@@ -131,7 +131,7 @@ def getLabels(pr):
 def getRow(record, stats, pr):
     """Compose data for the current run into a row."""
     I, BFull, BPart, BTot, T, St, Mem, QTot, QCon,\
-        _, Treal, SCov, SUnc, _, Ts, Tcex, Tf, Tr, QCexMiss, QCexHits, Iload = record
+        _, Treal, SCov, SUnc, _, Ts, Tcex, Tf, Tr, QCexMiss, QCexHits, Sloads = record
     maxMem, avgMem, maxStates, avgStates = stats
 
     # special case for straight-line code: report 100% branch coverage
@@ -143,7 +143,7 @@ def getRow(record, stats, pr):
     AvgQC = int(QCon / max(1, QTot))
 
     if pr == 'all':
-        row = (I, Iload, Treal, 100 * SCov / (SCov + SUnc),
+        row = (I, Sloads, Treal, 100 * SCov / (SCov + SUnc),
                100 * (2 * BFull + BPart) / (2 * BTot), SCov + SUnc,
                100 * Ts / Treal, St, maxStates, avgStates,
                Mem, maxMem, avgMem, QTot, AvgQC, 100 * Tcex / Treal,
@@ -155,12 +155,12 @@ def getRow(record, stats, pr):
     elif pr == 'abstime':
         row = (Treal, T, Ts, Tcex, Tf, Tr)
     elif pr == 'more':
-        row = (I, Iload, Treal, 100 * SCov / (SCov + SUnc),
+        row = (I, Sloads, Treal, 100 * SCov / (SCov + SUnc),
                100 * (2 * BFull + BPart) / (2 * BTot),
                SCov + SUnc, 100 * Ts / Treal,
                St, maxStates, Mem, maxMem)
     else:
-        row = (I, Iload, Treal, 100 * SCov / (SCov + SUnc),
+        row = (I, Sloads, Treal, 100 * SCov / (SCov + SUnc),
                100 * (2 * BFull + BPart) / (2 * BTot),
                SCov + SUnc, 100 * Ts / Treal)
     return row

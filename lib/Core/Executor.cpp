@@ -2271,7 +2271,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
   case Instruction::Load: {
     ref<Expr> base = eval(ki, 0, state).value;
     if (isSymbolic(state, base)) {
-      ++stats::loadInstructions;
+      ++stats::symLoads;
     }
     executeMemoryOperation(state, false, base, 0, ki);
     break;
