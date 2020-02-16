@@ -50,18 +50,20 @@ Searcher::~Searcher() {
 ///
 
 ExecutionState &SymLoadSearcher::selectState() {
-  // tuple <uint, ExecutionState> minSymLoad (states.begin().symLoad, states.begin());
-  // for (std::vector<ExecutionState*>::iterator it = states.begin(),
-  //      ie = states.end(); it != ie; ++it) {
-  //   ExecutionState *es = *it;
-  //   if (es.symLoad <= get<0>(minSymLoad)) {
-  //     get<0>(minSymLoad) = es.symLoad;
-  //     get<1>(minSymLoad) = es;
-  //   }
-  // }
-  // return get<1>(minSymLoad);
+  StackFrame &sf = states.begin()->stack.back();
+  uint64_t count = sf.callPathNode->statistics.getValue(stats::loadInstructions);
+  tuple <uint, ExecutionState> minSymLoad (count, states.begin());
 
-  return *states.back();
+  for (std::vector<ExecutionState*>::iterator it = states.begin(),
+       ie = states.end(); it != ie; ++it) {
+    ExecutionState *es = *it;
+    uint stateSymLoad = es->stack.back().callPathNode->statistics.getValue(stats::loadInstructions);
+    if (stateSymLoad <= get<0>(minSymLoad)) {
+      get<0>(minSymLoad) = stateSymLoad;
+      get<1>(minSymLoad) = es;
+    }
+  }
+  return get<1>(minSymLoad);
 }
 
 void SymLoadSearcher::update(ExecutionState *current,
