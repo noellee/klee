@@ -42,7 +42,7 @@ Legend = [
     ('TResolve', 'time spent in object resolution'),
     ('QCexCMisses', 'Counterexample cache misses'),
     ('QCexCHits', 'Counterexample cache hits'),
-    ('ILoad', 'number of executed load instructions'),
+    ('SymLoads', 'number of executed symbolic load instructions'),
 ]
 
 KleeTable = TableFormat(lineabove=Line("-", "-", "-", "-"),
@@ -109,7 +109,7 @@ def getKleeOutDirs(dirs):
 
 def getLabels(pr):
     if pr == 'all':
-        labels = ('Path', 'Instrs', 'ILoad', 'Time(s)', 'ICov(%)', 'BCov(%)', 'ICount',
+        labels = ('Path', 'Instrs', 'SymLoads', 'Time(s)', 'ICov(%)', 'BCov(%)', 'ICount',
                   'TSolver(%)', 'States', 'maxStates', 'avgStates', 'Mem(MB)',
                   'maxMem(MB)', 'avgMem(MB)', 'Queries', 'AvgQC', 'Tcex(%)',
                   'Tfork(%)', 'TResolve(%)', 'QCexCMisses', 'QCexCHits')
@@ -120,10 +120,10 @@ def getLabels(pr):
         labels = ('Path', 'Time(s)', 'TUser(s)', 'TSolver(s)',
                   'Tcex(s)', 'Tfork(s)', 'TResolve(s)')
     elif pr == 'more':
-        labels = ('Path', 'Instrs', 'ILoad', 'Time(s)', 'ICov(%)', 'BCov(%)', 'ICount',
+        labels = ('Path', 'Instrs', 'SymLoads', 'Time(s)', 'ICov(%)', 'BCov(%)', 'ICount',
                   'TSolver(%)', 'States', 'maxStates', 'Mem(MB)', 'maxMem(MB)')
     else:
-        labels = ('Path', 'Instrs', 'ILoad', 'Time(s)', 'ICov(%)',
+        labels = ('Path', 'Instrs', 'SymLoads', 'Time(s)', 'ICov(%)',
                   'BCov(%)', 'ICount', 'TSolver(%)')
     return labels
 
