@@ -73,6 +73,8 @@ private:
   ExecutionState &operator=(const ExecutionState &);
 
 public:
+  uint64_t symLoads;
+
   // Execution - Control Flow specific
 
   /// @brief Pointer to instruction to be executed after the current
@@ -144,7 +146,7 @@ public:
   std::uint64_t steppedInstructions;
 
 private:
-  ExecutionState() : ptreeNode(0) {}
+  ExecutionState() : symLoads(0), ptreeNode(0) {}
 
 public:
   ExecutionState(KFunction *kf);

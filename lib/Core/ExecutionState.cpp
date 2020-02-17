@@ -66,6 +66,8 @@ StackFrame::~StackFrame() {
 /***/
 
 ExecutionState::ExecutionState(KFunction *kf) :
+    symLoads(0),
+
     pc(kf->instructions),
     prevPC(pc),
 
@@ -80,7 +82,7 @@ ExecutionState::ExecutionState(KFunction *kf) :
 }
 
 ExecutionState::ExecutionState(const std::vector<ref<Expr> > &assumptions)
-    : constraints(assumptions), ptreeNode(0) {}
+    : symLoads(0), constraints(assumptions), ptreeNode(0) {}
 
 ExecutionState::~ExecutionState() {
   for (unsigned int i=0; i<symbolics.size(); i++)
@@ -101,6 +103,8 @@ ExecutionState::~ExecutionState() {
 }
 
 ExecutionState::ExecutionState(const ExecutionState& state):
+    symLoads(state.symLoads),
+
     pc(state.pc),
     prevPC(state.prevPC),
     stack(state.stack),

@@ -2272,6 +2272,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
     ref<Expr> base = eval(ki, 0, state).value;
     if (isSymbolic(state, base)) {
       ++stats::symLoads;
+      ++state.symLoads;
     }
     executeMemoryOperation(state, false, base, 0, ki);
     break;

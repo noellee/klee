@@ -56,7 +56,7 @@ ExecutionState &SymLoadSearcher::selectState() {
   for (std::vector<ExecutionState*>::iterator it = states.begin(),
        ie = states.end(); it != ie; ++it) {
     ExecutionState *es = *it;
-    uint stateSymLoad = es->stack.back().callPathNode->statistics.getValue(stats::symLoads);
+    uint64_t stateSymLoad = es->symLoads;
     if (stateSymLoad <= minSymLoad) {
       minSymLoad = stateSymLoad;
       minSymLoadState = es;
